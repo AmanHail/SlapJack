@@ -20,10 +20,19 @@
         <div id="message"></div>
         <button id="next-round" style="display:none;">Start Next Round</button>
         <button id="restart">Restart</button>
+        <div style="margin-bottom:18px;">
+            <label for="mode-select"><b>Mode:</b></label>
+            <select id="mode-select">
+                <option value="pvp">Player vs Player</option>
+                <option value="pvc">Player vs Computer</option>
+            </select>
+        </div>
         <div id="instructions">
             <b>How to Play:</b><br>
-            Press <b>A</b> for Player 1 slap, <b>L</b> for Player 2 slap.<br>
-            Slap on Jacks, doubles, sandwiches, or top-bottom matches!
+            <span id="instructions-text">
+                Press <b>A</b> for Player 1 slap, <b>L</b> for Player 2 slap.<br>
+                Slap on Jacks, doubles, sandwiches, or top-bottom matches!
+            </span>
         </div>
     </div>
     <script src="script.js"></script>
