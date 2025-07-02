@@ -155,7 +155,7 @@ function botTrySlap() {
     if (canSlap() && running) {
         setTimeout(() => {
             if (running && canSlap()) handleSlap(2, true);
-        }, 300 + Math.floor(Math.random() * 80)); // 300-380ms
+        }, 300 + Math.floor(Math.random() * 101)); // 300-400ms
     }
 }
 
