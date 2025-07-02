@@ -31,6 +31,7 @@ const FACE_CARDS = {
 const CARDS_PER_RANK = 4;
 
 let deck, player1, player2, pile, running, currentPlayer, interval;
+let mode = 'pvp'; // 'pvp' or 'pvc'
 
 function cardToString(card) {
     return FACE_CARDS[card.rank] || card.rank.toString();
@@ -75,7 +76,7 @@ function showPileStack() {
         img.src = getCardImageFilename(card);
         img.alt = cardToString(card);
         img.className = 'pile-card-img';
-        // Use stored position/rotation
+        // Use stored position/rotation for slight offset
         img.style.left = `${card.left}px`;
         img.style.top = `${card.top}px`;
         img.style.transform = `rotate(${card.rotate}deg)`;
@@ -84,17 +85,17 @@ function showPileStack() {
     }
 }
 
-// When adding a card to the pile, assign its random position/rotation ONCE
+// When adding a card to the pile, assign its position/rotation to be slightly offset for realism
 function pushToPile(card, index) {
     // Only assign if not already assigned
     if (card.left === undefined) {
         // Base position
         const baseLeft = 40;
         const baseTop = 5;
-        // Small incremental offset for stacking
-        card.left = baseLeft + index * 2 + (Math.random() - 0.5) * 2;
-        card.top = baseTop + index * 1 + (Math.random() - 0.5) * 2;
-        card.rotate = (Math.random() - 0.5) * 60;
+        // Slight incremental offset for stacking
+        card.left = baseLeft + index * 3 + (Math.random() - 0.5) * 3;
+        card.top = baseTop + index * 1.5 + (Math.random() - 0.5) * 2;
+        card.rotate = (Math.random() - 0.5) * 8;
     }
     pile.push(card);
 }
@@ -112,7 +113,7 @@ function nextCard() {
         return;
     }
     if (player1.length === 0) {
-        document.getElementById('message').textContent = 'Player 2 wins!';
+        document.getElementById('message').textContent = mode === 'pvc' ? 'Computer wins!' : 'Player 2 wins!';
         clearInterval(interval);
         showPileStack();
         return;
@@ -135,23 +136,37 @@ function nextCard() {
     pushToPile(card, pile.length);
     printStatus();
     showPileStack();
-    lastCardTime = Date.now(); // Record the time the card was played
+    lastCardTime = Date.now();
+
+    // Bot tries to slap if it's their turn
+    if (isBotTurn()) {
+        botTrySlap();
+    }
 }
 
-function handleSlap(player) {
-    if (!running) return;
+function isBotTurn() {
+    return mode === 'pvc' && currentPlayer === 2;
+}
 
+function botTrySlap() {
+    if (canSlap() && running) {
+        setTimeout(() => {
+            if (running && canSlap()) handleSlap(2, true);
+        }, 300 + Math.floor(Math.random() * 80)); // 300-380ms
+    }
+}
+
+function handleSlap(player, isBot) {
+    if (!running) return;
     clearInterval(interval);
     running = false;
-
     const msg = document.getElementById('message');
     msg.classList.remove('msg-correct', 'msg-mistap');
-
+    const nextBtn = document.getElementById('next-round');
     if (canSlap()) {
-        // Calculate reaction time
         let reaction = lastCardTime ? (Date.now() - lastCardTime) : null;
         let reactionText = reaction !== null ? ` (${reaction} ms!)` : '';
-        msg.textContent = `TAP! Player ${player} wins the pile!${reactionText}`;
+        msg.textContent = `TAP! ${player === 2 && mode === 'pvc' ? 'Computer' : 'Player ' + player}${isBot ? ' (BOT)' : ''} wins the pile!${reactionText}`;
         msg.classList.add('msg-correct');
         if (player === 1) {
             player1 = player1.concat(pile);
@@ -161,16 +176,18 @@ function handleSlap(player) {
         pile = [];
         printStatus();
         showPileStack();
-
-        setTimeout(() => {
+        nextBtn.textContent = 'Start up round again';
+        nextBtn.style.display = '';
+        nextBtn.onclick = () => {
             msg.textContent = '';
             msg.classList.remove('msg-correct');
+            nextBtn.style.display = 'none';
             running = true;
             if (interval) clearInterval(interval);
             interval = setInterval(nextCard, 1000);
-        }, 1800);
+        };
     } else {
-        msg.textContent = `Mistap! Player ${player} loses a card!`;
+        msg.textContent = `Mistap! ${player === 2 && mode === 'pvc' ? 'Computer' : 'Player ' + player}${isBot ? ' (BOT)' : ''} loses a card!`;
         msg.classList.add('msg-mistap');
         let burnedCard = null;
         if (player === 1 && player1.length > 0) {
@@ -187,13 +204,16 @@ function handleSlap(player) {
         }
         printStatus();
         showPileStack();
-        setTimeout(() => {
+        nextBtn.textContent = 'Start up round again';
+        nextBtn.style.display = '';
+        nextBtn.onclick = () => {
             msg.textContent = '';
             msg.classList.remove('msg-mistap');
+            nextBtn.style.display = 'none';
             running = true;
             if (interval) clearInterval(interval);
             interval = setInterval(nextCard, 1000);
-        }, 1800);
+        };
     }
 }
 
@@ -202,15 +222,14 @@ function startGame() {
     player1 = deck.slice(0, 26);
     player2 = deck.slice(26);
     pile = [];
-    running = false; // Don't start running yet!
+    running = false;
     currentPlayer = 1;
     printStatus();
     showPileStack();
     if (interval) clearInterval(interval);
-
-    // Show the next round button to start the game
     const nextBtn = document.getElementById('next-round');
     nextBtn.style.display = '';
+    nextBtn.textContent = 'Start Game';
     nextBtn.onclick = () => {
         document.getElementById('message').textContent = '';
         nextBtn.style.display = 'none';
@@ -222,9 +241,28 @@ function startGame() {
 
 window.onload = function () {
     document.getElementById('restart').onclick = startGame;
+    const modeSelect = document.getElementById('mode-select');
+    if (modeSelect) {
+        modeSelect.onchange = function () {
+            mode = modeSelect.value;
+            startGame();
+            // Update instructions
+            const instr = document.getElementById('instructions-text');
+            if (mode === 'pvc') {
+                instr.innerHTML = 'Press <b>A</b> to slap. Try to beat the computer!<br>Slap on Jacks, doubles, sandwiches, or top-bottom matches!';
+            } else {
+                instr.innerHTML = 'Press <b>A</b> for Player 1 slap, <b>L</b> for Player 2 slap.<br>Slap on Jacks, doubles, sandwiches, or top-bottom matches!';
+            }
+        };
+        mode = modeSelect.value;
+    }
     document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 'a') handleSlap(1);
-        if (e.key.toLowerCase() === 'l') handleSlap(2);
+        if (mode === 'pvc') {
+            if (e.key.toLowerCase() === 'a') handleSlap(1);
+        } else {
+            if (e.key.toLowerCase() === 'a') handleSlap(1);
+            if (e.key.toLowerCase() === 'l') handleSlap(2);
+        }
     });
     startGame();
 };
