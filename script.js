@@ -64,37 +64,41 @@ function printStatus() {
     document.getElementById('p1').textContent = `Player 1 (A): ${player1.length} cards`;
     document.getElementById('p2').textContent = `Player 2 (L): ${player2.length} cards`;
 }
-
 function showPileStack() {
     const pileStack = document.getElementById('pile-stack');
     pileStack.innerHTML = '';
     // Show up to the last 7 cards for visibility
     const show = pile.slice(-7);
-    const baseLeft = 30;
-    const baseTop = 20;
     for (let i = 0; i < show.length; i++) {
         const card = show[i];
         const img = document.createElement('img');
         img.src = getCardImageFilename(card);
         img.alt = cardToString(card);
         img.className = 'pile-card-img';
-        if (i < show.length - 1) {
-            img.style.left = `${baseLeft + i * 8}px`;
-            img.style.top = `${baseTop + i * 4}px`;
-            img.style.transform = `rotate(-4deg)`;
-        } else {
-            // Top card: random position and rotation for flair
-            const left = baseLeft + (Math.random() - 0.5) * 30 + i * 8;
-            const top = baseTop + (Math.random() - 0.5) * 12 + i * 4;
-            const rotate = (Math.random() - 0.5) * 18;
-            img.style.left = `${left}px`;
-            img.style.top = `${top}px`;
-            img.style.transform = `rotate(${rotate}deg)`;
-        }
+        // Use stored position/rotation
+        img.style.left = `${card.left}px`;
+        img.style.top = `${card.top}px`;
+        img.style.transform = `rotate(${card.rotate}deg)`;
         img.style.zIndex = i + 1;
         pileStack.appendChild(img);
     }
 }
+
+// When adding a card to the pile, assign its random position/rotation ONCE
+function pushToPile(card, index) {
+    // Only assign if not already assigned
+    if (card.left === undefined) {
+        // Base position
+        const baseLeft = 40;
+        const baseTop = 5;
+        // Small incremental offset for stacking
+        card.left = baseLeft + index * 2 + (Math.random() - 0.5) * 2;
+        card.top = baseTop + index * 1 + (Math.random() - 0.5) * 2;
+        card.rotate = (Math.random() - 0.5) * 60;
+    }
+    pile.push(card);
+}
+
 
 
 let lastCardTime = null; // Add this at the top with your other variables
@@ -128,7 +132,7 @@ function nextCard() {
         card = player2.shift();
         currentPlayer = 1;
     }
-    pile.push(card);
+    pushToPile(card, pile.length);
     printStatus();
     showPileStack();
     lastCardTime = Date.now(); // Record the time the card was played
