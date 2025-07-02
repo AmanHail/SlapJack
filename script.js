@@ -90,20 +90,14 @@ function showPileStack() {
 
 // When adding a card to the pile, assign its position/rotation to be slightly offset for realism
 function pushToPile(card, index) {
-    // Only assign if not already assigned
     if (card.left === undefined) {
-        // Base position
-        const baseLeft = 40;
-        const baseTop = 5;
-        // Slight incremental offset for stacking
-        card.left = baseLeft + index * 3 + (Math.random() - 0.5) * 3;
-        card.top = baseTop + index * 1.5 + (Math.random() - 0.5) * 2;
-        card.rotate = (Math.random() - 0.5) * 8;
+        // Keep all cards in the same position
+        card.left = 5;
+        card.top = 5;
+        card.rotate = (Math.random() - 0.5) * 20; // Only rotate
     }
     pile.push(card);
 }
-
-
 
 let lastCardTime = null; // Add this at the top with your other variables
 
@@ -179,14 +173,13 @@ function handleSlap(player, isBot) {
         pile = [];
         printStatus();
         showPileStack();
-        // Automatically start next round after a short delay
         setTimeout(() => {
             msg.textContent = '';
             msg.classList.remove('msg-correct');
             running = true;
             if (interval) clearInterval(interval);
             interval = setInterval(nextCard, 1000);
-        }, 1200); // 1.2 seconds for feedback
+        }, 1200);
         nextBtn.style.display = 'none';
     } else {
         msg.textContent = `Mistap! ${player === 2 && mode === 'pvc' ? 'Computer' : 'Player ' + player}${isBot ? ' (BOT)' : ''} loses a card!`;
@@ -198,26 +191,47 @@ function handleSlap(player, isBot) {
             burnedCard = player2.shift();
         }
         if (burnedCard) {
-            if (pile.length >= 1) {
-                pile.splice(pile.length - 1, 0, burnedCard);
-            } else {
-                pile.push(burnedCard);
-            }
+            // Animate pile up
+            const pileStack = document.getElementById('pile-stack');
+            pileStack.classList.add('pile-stack-animate');
+            // Create burn card image
+            const burnImg = document.createElement('img');
+            burnImg.src = getCardImageFilename(burnedCard);
+            burnImg.alt = cardToString(burnedCard);
+            burnImg.className = 'pile-card-img burn-card-animate';
+            pileStack.parentNode.appendChild(burnImg);
+
+            setTimeout(() => {
+                // Move burn card to bottom visually
+                burnImg.style.top = '110px'; // below the pile
+                setTimeout(() => {
+                    pileStack.classList.remove('pile-stack-animate');
+                    pileStack.classList.add('pile-stack-reset');
+                    // Actually add burn card to bottom
+                    pushToPile(burnedCard, 0);
+                    // Move the last card (just added) to the front (bottom)
+                    pile.unshift(pile.pop());
+                    showPileStack();
+                    burnImg.remove();
+                    setTimeout(() => {
+                        pileStack.classList.remove('pile-stack-reset');
+                    }, 500);
+                }, 500);
+            }, 500);
+        } else {
+            printStatus();
+            showPileStack();
         }
-        printStatus();
-        showPileStack();
         nextBtn.style.display = 'none';
-        // Automatically start next round after a short delay
         setTimeout(() => {
             msg.textContent = '';
             msg.classList.remove('msg-mistap');
             running = true;
             if (interval) clearInterval(interval);
             interval = setInterval(nextCard, 1000);
-        }, 1200); // 1.2 seconds for feedback
+        }, 1700);
     }
 }
-
 
 function startGame() {
     deck = buildShuffledDeck();

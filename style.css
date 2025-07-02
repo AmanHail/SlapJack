@@ -64,30 +64,28 @@ h2 {
     width: 200px;
     height: 180px;
     margin: 0 auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    background: repeating-linear-gradient(
-        135deg, #f1f8e9, #f1f8e9 10px, #e0f2f1 10px, #e0f2f1 20px
-    );
-    border-radius: 14px;
-    border: 2px solid #a5d6a7;
-    box-shadow: 0 4px 16px #0001;
+    /* Remove these lines: */
+    /* display: flex; */
+    /* align-items: flex-end; */
+    /* justify-content: center; */
+    box-shadow: none;
     overflow: visible;
+    background: none;
+    border: none;
 }
 .pile-card-img {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 120px;
+    left: 40px;   /* Center the cards horizontally in the pile area */
+    top: 5px;     /* Place cards near the top of the pile area */
+    width: 175px;
     height: auto;
-    box-shadow: 0 4px 16px #0002, 0 1px 0 #fff;
     border-radius: 10px;
-    background: #fff;
+    background: none;
     z-index: 1;
     transition: left 0.2s, top 0.2s, transform 0.2s, box-shadow 0.2s;
     user-select: none;
-    border: 1.5px solid #c8e6c9;
+    border: 5px solid white;
+    box-shadow: none;
 }
 #message {
     margin: 18px 0 0 0;
@@ -162,4 +160,21 @@ select:focus {
     .pile-card-img { width: 70px; }
     .player-score { font-size: 1em; padding: 7px 0; }
     h2 { font-size: 1.5em; }
+}
+
+/* Add to style.css */
+.pile-stack-animate {
+    transition: transform 0.5s;
+    transform: translateY(-40px);
+}
+.pile-stack-reset {
+    transition: transform 0.5s;
+    transform: translateY(0);
+}
+.burn-card-animate {
+    position: absolute;
+    left: 40px;
+    top: 5px;
+    z-index: 0;
+    transition: top 0.5s;
 }
