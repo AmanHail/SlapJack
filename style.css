@@ -1,6 +1,6 @@
 body {
     font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #388e3c 0%, #43a047 100%);
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
     margin: 0;
     min-height: 100vh;
 }
@@ -8,19 +8,20 @@ body {
     max-width: 540px;
     margin: 48px auto;
     text-align: center;
-    background: rgba(255,255,255,0.97);
+    background: #fff;
     border-radius: 22px;
-    box-shadow: 0 8px 40px #2227;
+    box-shadow: 0 8px 32px #2222, 0 1.5px 0 #fff;
     padding: 36px 22px 32px 22px;
     position: relative;
     overflow: hidden;
+    border: 1.5px solid #b7dfb7;
 }
 h2 {
     margin-top: 0;
     color: #1b5e20;
     letter-spacing: 3px;
     font-size: 2.5em;
-    text-shadow: 0 2px 8px #0002;
+    text-shadow: 0 2px 8px #0001;
     font-family: 'Luckiest Guy', cursive, sans-serif;
 }
 .score-row {
@@ -30,17 +31,18 @@ h2 {
     gap: 12px;
 }
 .player-score {
-    font-size: 1.3em;
-    font-weight: bold;
+    font-size: 1.2em;
+    font-weight: 600;
     width: 48%;
-    padding: 14px 0;
+    padding: 13px 0;
     border-radius: 12px;
-    background: linear-gradient(90deg, #e8f5e9 60%, #c8e6c9 100%);
+    background: linear-gradient(90deg, #f1f8e9 60%, #e0f2f1 100%);
     color: #1b5e20;
     box-shadow: 0 2px 8px #0001;
-    border: 2px solid #a5d6a7;
+    border: 1.5px solid #a5d6a7;
     text-shadow: 0 1px 0 #fff;
     letter-spacing: 1px;
+    transition: background 0.2s, color 0.2s;
 }
 #table-area {
     margin: 36px 0 18px 0;
@@ -50,11 +52,11 @@ h2 {
     align-items: center;
 }
 #pile-label {
-    font-size: 1.2em;
-    color: #2e7d32;
+    font-size: 1.1em;
+    color: #388e3c;
     margin-bottom: 10px;
     letter-spacing: 2px;
-    font-weight: bold;
+    font-weight: 600;
     text-shadow: 0 1px 0 #fff;
 }
 #pile-stack {
@@ -69,8 +71,8 @@ h2 {
         135deg, #f1f8e9, #f1f8e9 10px, #e0f2f1 10px, #e0f2f1 20px
     );
     border-radius: 14px;
-    border: 3px solid #a5d6a7;
-    box-shadow: 0 4px 16px #0002;
+    border: 2px solid #a5d6a7;
+    box-shadow: 0 4px 16px #0001;
     overflow: visible;
 }
 .pile-card-img {
@@ -79,57 +81,57 @@ h2 {
     bottom: 0;
     width: 120px;
     height: auto;
-    box-shadow: 0 6px 24px #0005, 0 1px 0 #fff;
+    box-shadow: 0 4px 16px #0002, 0 1px 0 #fff;
     border-radius: 10px;
     background: #fff;
     z-index: 1;
-    transition: left 0.2s, top 0.2s, transform 0.2s;
+    transition: left 0.2s, top 0.2s, transform 0.2s, box-shadow 0.2s;
     user-select: none;
-    border: 2px solid #c8e6c9;
+    border: 1.5px solid #c8e6c9;
 }
 #message {
     margin: 18px 0 0 0;
     min-height: 32px;
-    font-size: 1.25em;
+    font-size: 1.18em;
     border-radius: 10px;
-    padding: 14px;
-    font-weight: bold;
+    padding: 13px;
+    font-weight: 600;
     transition: background 0.2s, color 0.2s;
     box-shadow: 0 2px 8px #0001;
     letter-spacing: 1px;
 }
 .msg-correct {
     color: #155724;
-    background: linear-gradient(90deg, #d4edda 60%, #b7dfb7 100%);
-    border: 1px solid #b7dfb7;
+    background: linear-gradient(90deg, #e8f5e9 60%, #c8e6c9 100%);
+    border: 1.5px solid #b7dfb7;
 }
 .msg-mistap {
     color: #721c24;
     background: linear-gradient(90deg, #f8d7da 60%, #f5c6cb 100%);
-    border: 1px solid #f5c6cb;
+    border: 1.5px solid #f5c6cb;
 }
 #instructions {
     margin-top: 24px;
-    font-size: 1.1em;
+    font-size: 1.08em;
     color: #333;
     background: #f1f8e9;
     border-radius: 10px;
-    padding: 14px 10px;
+    padding: 13px 10px;
     box-shadow: 0 1px 4px #0001;
-    border: 1px solid #c8e6c9;
+    border: 1.5px solid #c8e6c9;
     line-height: 1.7;
 }
 button {
     margin-top: 20px;
     padding: 10px 32px;
-    font-size: 1.15em;
+    font-size: 1.12em;
     border-radius: 10px;
     border: none;
     background: linear-gradient(90deg, #a5d6a7 60%, #81c784 100%);
     color: #1b5e20;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 2px 8px #0002;
+    box-shadow: 0 2px 8px #0001;
     transition: background 0.2s, color 0.2s, transform 0.1s;
     letter-spacing: 1px;
 }
@@ -137,6 +139,22 @@ button:hover {
     background: linear-gradient(90deg, #81c784 60%, #a5d6a7 100%);
     color: #fff;
     transform: translateY(-2px) scale(1.04);
+}
+select {
+    font-size: 1em;
+    border-radius: 7px;
+    border: 1.5px solid #a5d6a7;
+    padding: 5px 12px;
+    background: #f1f8e9;
+    color: #1b5e20;
+    margin-left: 8px;
+    margin-top: 8px;
+    box-shadow: 0 1px 4px #0001;
+    transition: border 0.2s;
+}
+select:focus {
+    outline: none;
+    border: 1.5px solid #388e3c;
 }
 @media (max-width: 600px) {
     #container { max-width: 98vw; padding: 10px 2vw; }
