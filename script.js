@@ -19,6 +19,9 @@ function getCardImageFilename(card) {
     else if (rank === 11) rank = 'jack';
     else if (rank === 12) rank = 'queen';
     else if (rank === 13) rank = 'king';
+    if (rank === 'jack' || rank === 'queen' || rank === 'king') {
+        return `Playing Cards/PNG-cards-1.3/${rank}_of_${card.suit}2.png`;
+    }
     return `Playing Cards/PNG-cards-1.3/${rank}_of_${card.suit}.png`;
 }
 
