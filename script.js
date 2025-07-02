@@ -179,16 +179,15 @@ function handleSlap(player, isBot) {
         pile = [];
         printStatus();
         showPileStack();
-        nextBtn.textContent = 'Start up round again';
-        nextBtn.style.display = '';
-        nextBtn.onclick = () => {
+        // Automatically start next round after a short delay
+        setTimeout(() => {
             msg.textContent = '';
             msg.classList.remove('msg-correct');
-            nextBtn.style.display = 'none';
             running = true;
             if (interval) clearInterval(interval);
             interval = setInterval(nextCard, 1000);
-        };
+        }, 1200); // 1.2 seconds for feedback
+        nextBtn.style.display = 'none';
     } else {
         msg.textContent = `Mistap! ${player === 2 && mode === 'pvc' ? 'Computer' : 'Player ' + player}${isBot ? ' (BOT)' : ''} loses a card!`;
         msg.classList.add('msg-mistap');
@@ -207,18 +206,18 @@ function handleSlap(player, isBot) {
         }
         printStatus();
         showPileStack();
-        nextBtn.textContent = 'Start up round again';
-        nextBtn.style.display = '';
-        nextBtn.onclick = () => {
+        nextBtn.style.display = 'none';
+        // Automatically start next round after a short delay
+        setTimeout(() => {
             msg.textContent = '';
             msg.classList.remove('msg-mistap');
-            nextBtn.style.display = 'none';
             running = true;
             if (interval) clearInterval(interval);
             interval = setInterval(nextCard, 1000);
-        };
+        }, 1200); // 1.2 seconds for feedback
     }
 }
+
 
 function startGame() {
     deck = buildShuffledDeck();
