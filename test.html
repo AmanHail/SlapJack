@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slapjack</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700|Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <h2>Slapjack</h2>
+        <div class="score-row">
+            <div class="player-score" id="p1"></div>
+            <div class="player-score" id="p2"></div>
+        </div>
+        <div id="table-area">
+            <div id="pile-label">Pile</div>
+            <div id="pile-stack"></div>
+        </div>
+        <div id="message"></div>
+        <button id="next-round" style="display:none;">Start Next Round</button>
+        <button id="restart">Restart</button>
+        <div id="instructions">
+            <b>How to Play:</b><br>
+            Press <b>A</b> for Player 1 slap, <b>L</b> for Player 2 slap.<br>
+            Slap on Jacks, doubles, sandwiches, or top-bottom matches!
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
