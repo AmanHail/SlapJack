@@ -191,49 +191,25 @@ select:focus {
     transition: top 0.5s;
 }
 
-#rules-container {
-    position: absolute;
-    top: 100px; /* Move the menu further down */
-    right: 20px;
-    width: 220px; /* Slightly wider for better readability */
+#rules-and-difficulty-container {
+    position: absolute; /* Position it relative to the screen */
+    top: 100px; /* Adjust vertical position */
+    right: 40px; /* Align it to the right side */
+    width: 240px;
     padding: 20px;
-    background: linear-gradient(135deg, #ffffff, #e6e6e6); /* Subtle gradient */
-    border: 1px solid #bbb;
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
+    background: linear-gradient(135deg, #ffffff, #f7f7f7); /* Subtle gradient */
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
-    transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effect */
+}
+#rules-container, #difficulty-container {
+    margin-bottom: 20px;
 }
 
-#rules-container:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-}
-
-#rules-container input[type="checkbox"] {
-    margin-right: 10px;
-    accent-color: #388e3c; /* Modern checkbox color */
-    transform: scale(1.5); /* Make the checkmarks bigger */
-    cursor: pointer; /* Add a pointer cursor for better UX */
-}
-
-#rules-container label {
-    display: block;
-    margin-bottom: 12px;
-    font-size: 14px;
-    color: #555;
-    cursor: pointer;
-    transition: color 0.2s;
-    font-family: inherit; /* Use the same font as the rest of the page */
-}
-
-#rules-container label:hover {
-    color: #000; /* Darker text on hover */
-}
-
-#rules-container h3 {
+#rules-container h3, #difficulty-container h3 {
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 18px;
     text-align: center;
     color: #333;
@@ -243,7 +219,7 @@ select:focus {
     padding-bottom: 5px;
 }
 
-#rules-container label {
+#rules-container label, #difficulty-container select {
     display: block;
     margin-bottom: 12px;
     font-size: 14px;
@@ -252,11 +228,87 @@ select:focus {
     transition: color 0.2s;
 }
 
-#rules-container label:hover {
-    color: #000; /* Darker text on hover */
+#difficulty-container select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+#difficulty-container select:hover {
+    border-color: #888;
+}
+
+#difficulty-select {
+    font-size: 18px; /* Increase font size for the dropdown */
+    padding: 10px; /* Add padding for better spacing */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+#difficulty-select option {
+    font-size: inherit; /* Increase font size for the options */
+}
+
+#rules-container, #difficulty-container {
+    margin-bottom: 20px;
+}
+
+#rules-container h3, #difficulty-container h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-align: center;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+#rules-container label, #difficulty-container select {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#difficulty-container select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+#difficulty-container select:hover {
+    border-color: #888;
 }
 
 #rules-container input[type="checkbox"] {
-    margin-right: 10px;
-    accent-color: #388e3c; /* Modern checkbox color */
+    transform: scale(1.5); /* Make the checkmarks bigger */
+    accent-color: #388e3c; /* Change the checkmark color to green */
+    cursor: pointer; /* Add a pointer cursor for better UX */
+    margin-right: 10px; /* Add spacing between the checkbox and label text */
+}
+
+#rules-container label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #555;
+    cursor: pointer;
+    font-family: inherit; /* Ensure consistent font with the rest of the page */
 }

@@ -43,6 +43,14 @@ let slapRules = {
     isTopBottom: true,
 };
 
+let botReactionTime = 300; // Default to medium (1 second)
+
+const difficultyReactionTimes = {
+    easy: 800,  // 1.5 seconds
+    medium: 500, // 1 second
+    hard: 200    // 0.5 seconds
+};
+
 function cardToString(card) {
     return FACE_CARDS[card.rank] || card.rank.toString();
 }
@@ -149,10 +157,11 @@ function nextCard() {
     showPileStack();
     lastCardTime = Date.now();
 
+    botTrySlap();
     // Bot tries to slap if it's their turn
-    if (isBotTurn()) {
-        botTrySlap();
-    }
+    //if (isBotTurn()) {
+       // botTrySlap();
+    //}
 }
 
 
@@ -169,7 +178,7 @@ function botTrySlap() {
     if (canSlap() && running) {
         setTimeout(() => {
             if (running && canSlap()) handleSlap(2, true);
-        }, 300 + Math.floor(Math.random() * 101)); // 300-400ms
+        }, botReactionTime + Math.floor(Math.random() * 101)); // 300-400ms
     }
 }
 
@@ -261,6 +270,15 @@ function startGame() {
     running = false;
     currentPlayer = 1;
     document.getElementById('rules-container').addEventListener('change', updateSlapRules);
+
+    //Set bot difficulty level
+    document.getElementById('difficulty-select').addEventListener('change', (event) => {
+        const difficulty = event.target.value;
+        botReactionTime = difficultyReactionTimes[difficulty];
+        console.log('')
+        console.log(`Bot reaction time set to ${botReactionTime}ms for ${difficulty} difficulty.`);
+    });
+
     printStatus();
     showPileStack();
     if (interval) clearInterval(interval);
@@ -279,6 +297,8 @@ function startGame() {
 window.onload = function () {
     document.getElementById('restart').onclick = startGame;
     const modeSelect = document.getElementById('mode-select');
+    const difficultyContainer = document.getElementById('difficulty-container');
+
     if (modeSelect) {
         modeSelect.onchange = function () {
             mode = modeSelect.value;
@@ -287,12 +307,23 @@ window.onload = function () {
             const instr = document.getElementById('instructions-text');
             if (mode === 'pvc') {
                 instr.innerHTML = 'Press <b>A</b> to slap. Try to beat the computer!<br>Slap on Jacks, doubles, sandwiches, or top-bottom matches!';
+                difficultyContainer.style.display = 'block';
             } else {
                 instr.innerHTML = 'Press <b>A</b> for Player 1 slap, <b>L</b> for Player 2 slap.<br>Slap on Jacks, doubles, sandwiches, or top-bottom matches!';
+                difficultyContainer.style.display = 'none';
             }
         };
         mode = modeSelect.value;
     }
+
+    // Add a click event listener to the pile
+    document.getElementById('pile-stack').addEventListener('click', () => {
+        console.log('Pile clicked');
+        if (mode === 'pvc') {
+            handleSlap(1); // Simulate Player 1's slap
+        }
+    });
+
     document.addEventListener('keydown', (e) => {
         if (mode === 'pvc') {
             if (e.key.toLowerCase() === 'a') handleSlap(1);
@@ -301,5 +332,6 @@ window.onload = function () {
             if (e.key.toLowerCase() === 'l') handleSlap(2);
         }
     });
+
     startGame();
 };

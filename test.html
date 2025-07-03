@@ -16,7 +16,7 @@
 <div id="table-area" style="position:relative;">
     <div id="pile-stack"></div>
     <div id="message"></div>
-</div>
+    </div>
         <button id="next-round" style="display:none;">Start Next Round</button>
         <button id="restart">Restart</button>
         <div style="margin-bottom:18px;">
@@ -33,15 +33,28 @@
                 Slap on Jacks, doubles, sandwiches, or top-bottom matches!
             </span>
         </div>
+</div> 
+
+<div id="rules-and-difficulty-container">
+    <div id="rules-container">
+        <h3>Select Slap Rules:</h3>
+        <label><input type="checkbox" id="rule-isJack" checked> Slap on Jack</label>
+        <label><input type="checkbox" id="rule-isDouble" checked> Slap on Double</label>
+        <label><input type="checkbox" id="rule-isSandwich" checked> Slap on Sandwich</label>
+        <label><input type="checkbox" id="rule-isTopBottom" checked> Slap on Top-Bottom</label>
+    </div>
+
+    <div id="difficulty-container" style="display: none;">
+        <h3>Bot Difficulty:</h3>
+        <select id="difficulty-select">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+    </div>
 </div>
 
-<div id="rules-container">
-    <h3>Select Slap Rules:</h3>
-    <label><input type="checkbox" id="rule-isJack" checked> Slap on Jack</label><br>
-    <label><input type="checkbox" id="rule-isDouble" checked> Slap on Double</label><br>
-    <label><input type="checkbox" id="rule-isSandwich" checked> Slap on Sandwich</label><br>
-    <label><input type="checkbox" id="rule-isTopBottom" checked> Slap on Top-Bottom</label><br>
-</div>
+
 
 <script src="script.js"></script>
 
