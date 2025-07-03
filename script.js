@@ -141,6 +141,12 @@ function nextCard() {
     }
 }
 
+
+/**
+ * Checks if it is the bot's turn.
+ *
+ * @return {boolean} Returns true if the mode is 'pvc' and the current player is 2, false otherwise.
+ */
 function isBotTurn() {
     return mode === 'pvc' && currentPlayer === 2;
 }

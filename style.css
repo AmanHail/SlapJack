@@ -59,6 +59,28 @@ h2 {
     font-weight: 600;
     text-shadow: 0 1px 0 #fff;
 }
+#table-area {
+    margin: 36px 0 18px 0;
+    min-height: 260px; /* Increase this value */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+#message {
+    position: absolute;
+    left: 50%;
+    top: 318px; /* Adjust as needed */
+    transform: translateX(-50%);
+    width: 90%;
+    font-size: 1.45em;
+    font-weight: bold;
+    text-align: center;
+    z-index: 20;
+    pointer-events: none;
+    padding: 8px 0;
+}
 #pile-stack {
     position: relative;
     width: 200px;
@@ -87,17 +109,7 @@ h2 {
     border: 5px solid white;
     box-shadow: none;
 }
-#message {
-    margin: 18px 0 0 0;
-    min-height: 32px;
-    font-size: 1.18em;
-    border-radius: 10px;
-    padding: 13px;
-    font-weight: 600;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px #0001;
-    letter-spacing: 1px;
-}
+
 .msg-correct {
     color: #155724;
     background: linear-gradient(90deg, #e8f5e9 60%, #c8e6c9 100%);
