@@ -36,8 +36,22 @@ const CARDS_PER_RANK = 4;
 let deck, player1, player2, pile, running, currentPlayer, interval;
 let mode = 'pvp'; // 'pvp' or 'pvc'
 
+let slapRules = {
+    isJack: true,
+    isDouble: true,
+    isSandwich: true,
+    isTopBottom: true,
+};
+
 function cardToString(card) {
     return FACE_CARDS[card.rank] || card.rank.toString();
+}
+
+function updateSlapRules() {
+    slapRules.isJack = document.getElementById('rule-isJack').checked;
+    slapRules.isDouble = document.getElementById('rule-isDouble').checked;
+    slapRules.isSandwich = document.getElementById('rule-isSandwich').checked;
+    slapRules.isTopBottom = document.getElementById('rule-isTopBottom').checked;
 }
 
 function isJack(card) {
@@ -56,10 +70,10 @@ function canSlap() {
     return (
         pile.length > 0 &&
         (
-            isJack(pile[pile.length - 1]) ||
-            isDouble() ||
-            isSandwich() ||
-            isTopBottom()
+            isJack(pile[pile.length - 1]) && slapRules.isJack||
+            isDouble() && slapRules.isDouble ||
+            isSandwich() && slapRules.isSandwich ||
+            isTopBottom() && slapRules.isTopBottom
         )
     );
 }
@@ -246,6 +260,7 @@ function startGame() {
     pile = [];
     running = false;
     currentPlayer = 1;
+    document.getElementById('rules-container').addEventListener('change', updateSlapRules);
     printStatus();
     showPileStack();
     if (interval) clearInterval(interval);
