@@ -157,7 +157,9 @@ function nextCard() {
     showPileStack();
     lastCardTime = Date.now();
 
-    botTrySlap();
+    if (mode === 'pvc') {
+        botTrySlap();
+    }
     // Bot tries to slap if it's their turn
     //if (isBotTurn()) {
        // botTrySlap();
