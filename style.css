@@ -312,3 +312,16 @@ select:focus {
     cursor: pointer;
     font-family: inherit; /* Ensure consistent font with the rest of the page */
 }
+
+/* Add to style.css */
+.victory-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 2em;
+    font-weight: bold;
+    color: #1b5e20;
+    background: none;
+    text-shadow: 0 2px 8px #c8e6c9;
+}

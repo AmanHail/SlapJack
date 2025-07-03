@@ -93,6 +93,18 @@ function printStatus() {
 function showPileStack() {
     const pileStack = document.getElementById('pile-stack');
     pileStack.innerHTML = '';
+
+    // If the game is over, show the victory message here
+    const msg = document.getElementById('message');
+    if (
+        msg.textContent.includes('wins!') ||
+        msg.textContent.includes('Game over')
+    ) {
+        pileStack.innerHTML = `<div class="victory-message">${msg.textContent}</div>`;
+        msg.textContent = ''; // Hide the global message
+        return;
+    }
+
     // Show up to the last 7 cards for visibility
     const show = pile.slice(-7);
     for (let i = 0; i < show.length; i++) {
@@ -101,7 +113,6 @@ function showPileStack() {
         img.src = getCardImageFilename(card);
         img.alt = cardToString(card);
         img.className = 'pile-card-img';
-        // Use stored position/rotation for slight offset
         img.style.left = `${card.left}px`;
         img.style.top = `${card.top}px`;
         img.style.transform = `rotate(${card.rotate}deg)`;
